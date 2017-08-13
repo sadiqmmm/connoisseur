@@ -37,7 +37,7 @@ client.spam!(
 )
 ```
 
-Inform Akismet that comment should have been marked ham:
+Inform Akismet that a comment should have been marked ham:
 
 ```ruby
 client.ham!(
