@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    connoisseur (1.0.0)
+    connoisseur (1.0.1)
       httparty (~> 0.15.6)
 
 GEM
@@ -38,11 +38,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activesupport (~> 5.1.2)
+  activesupport (~> 5.1)
   connoisseur!
-  minitest (~> 5.10.3)
-  rake (~> 12.0.0)
-  webmock (~> 3.0.1)
+  minitest (~> 5.10)
+  rake (~> 12.0)
+  webmock (~> 3.0)
 
 BUNDLED WITH
    1.15.3
