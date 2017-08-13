@@ -52,10 +52,10 @@ client.ham!(
 For convenience, set your Akismet API key and user agent globally (e.g. in a Rails initializer):
 
 ```ruby
-Akismet.api_key = "..."
-Akismet.user_agent = "..."
+Connoisseur.api_key = "..."
+Connoisseur.user_agent = "..."
 
-client = Akismet::Client.new
+client = Connoisseur::Client.new
 ```
 
 ## License
