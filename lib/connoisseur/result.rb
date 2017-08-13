@@ -26,10 +26,10 @@ class Connoisseur::Result
   attr_reader :response
 
   def require_successful_response
-    raise Invalid unless response.success?
+    raise Invalid, "Expected successful response, got #{response.code}" unless response.success?
   end
 
   def require_boolean_response_body
-    raise Invalid unless %w( true false ).include?(response.body)
+    raise Invalid, "Expected boolean response body, got #{response.body.inspect}" unless %w( true false ).include?(response.body)
   end
 end
