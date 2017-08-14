@@ -2,6 +2,14 @@
 
 Connoisseur is a Ruby client for the [Akismet](https://akismet.com) spam filtering service.
 
+## Installation
+
+Add Connoisseur to your app’s Gemfile and run `bundle install`:
+
+```ruby
+gem "connoisseur"
+```
+
 ## Usage
 
 Initialize a Connoisseur client:
