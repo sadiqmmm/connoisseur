@@ -13,7 +13,6 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "rake", "~> 12.0"
   s.add_development_dependency "activesupport", "~> 5.1"
-  s.add_development_dependency "minitest", "~> 5.10"
   s.add_development_dependency "webmock", "~> 3.0"
 
   s.files      = `git ls-files`.split("\n")

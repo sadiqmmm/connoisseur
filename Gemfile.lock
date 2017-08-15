@@ -40,7 +40,6 @@ PLATFORMS
 DEPENDENCIES
   activesupport (~> 5.1)
   connoisseur!
-  minitest (~> 5.10)
   rake (~> 12.0)
   webmock (~> 3.0)
 
