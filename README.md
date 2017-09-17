@@ -18,17 +18,23 @@ Initialize a Connoisseur client:
 client = Connoisseur::Client.new(api_key: "...", user_agent: "...")
 ```
 
+Build a comment:
+
+```ruby
+comment = client.comment do |c|
+  c.blog "..."
+  c.user_ip "..."
+  c.user_agent "..."
+  c.referrer "..."
+  c.comment_content "..."
+  # ...
+end
+```
+
 Determine whether a comment is spam or ham:
 
 ```ruby
-result = client.check(
-  blog: "...",
-  user_ip: "...",
-  user_agent: "...",
-  referrer: "...",
-  comment_content: "..."
-)
-
+result = comment.check
 result.spam?
 result.discard?
 ```
@@ -36,25 +42,15 @@ result.discard?
 Inform Akismet that a comment should have been marked spam:
 
 ```ruby
-client.spam!(
-  blog: "...",
-  user_ip: "...",
-  user_agent: "...",
-  referrer: "...",
-  comment_content: "..."
-)
+comment.spam!
+comment.update! spam: true
 ```
 
 Inform Akismet that a comment should have been marked ham:
 
 ```ruby
-client.ham!(
-  blog: "...",
-  user_ip: "...",
-  user_agent: "...",
-  referrer: "...",
-  comment_content: "..."
-)
+comment.ham!
+comment.update! spam: false
 ```
 
 For convenience, set your Akismet API key and user agent globally (e.g. in a Rails initializer):

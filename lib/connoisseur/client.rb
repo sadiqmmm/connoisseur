@@ -1,4 +1,5 @@
 require "httparty"
+require "connoisseur/comment"
 require "connoisseur/result"
 
 class Connoisseur::Client
@@ -9,6 +10,11 @@ class Connoisseur::Client
 
     require_usable_key
   end
+
+  def comment(&block)
+    Connoisseur::Comment.new self, &block
+  end
+
 
   def check(comment)
     validated_result_from post("comment-check", body: comment)
