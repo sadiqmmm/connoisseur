@@ -5,7 +5,7 @@ class Connoisseur::ClientTest < ActiveSupport::TestCase
     @client = Connoisseur::Client.new
 
     @comment = @client.comment do |c|
-      c.comment_content "Hello, world!"
+      c.content "Hello, world!"
     end
   end
 

@@ -3,8 +3,33 @@ class Connoisseur::Comment::Definition
     @attributes = {}
   end
 
-  def define(name, value)
-    @attributes[name] = value
+  def blog(url: nil, lang: nil, charset: nil)
+    define blog: url, blog_lang: lang, blog_charset: charset
+  end
+
+  def post(url: nil, updated_at: nil)
+    define permalink: url
+    define comment_post_modified_gmt: format_time(updated_at) if updated_at
+  end
+
+  def request(ip_address: nil, user_agent: nil, referrer: nil)
+    define user_ip: ip_address, user_agent: user_agent, referrer: referrer
+  end
+
+  def author(name: nil, email_address: nil)
+    define comment_author: name, comment_author_email: email_address
+  end
+
+  def type(type)
+    define comment_type: type
+  end
+
+  def content(content)
+    define comment_content: content
+  end
+
+  def created_at(created_at)
+    define comment_date_gmt: format_time(created_at)
   end
 
   def to_hash
@@ -13,11 +38,15 @@ class Connoisseur::Comment::Definition
 
   private
 
-  def method_missing(name, *args)
-    define name, *args
+  def define(attributes)
+    @attributes.merge!(attributes.compact)
   end
 
-  def respond_to_missing?(name, include_private = false)
-    true
+  def format_time(time)
+    if time.respond_to?(:utc)
+      time.utc.iso8601
+    else
+      time.to_s
+    end
   end
 end

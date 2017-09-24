@@ -22,12 +22,14 @@ Build a comment:
 
 ```ruby
 comment = client.comment do |c|
-  c.blog "..."
-  c.user_ip "..."
-  c.user_agent "..."
-  c.referrer "..."
-  c.comment_content "..."
-  # ...
+  c.blog url: "...", lang: "en", charset: "UTF-8"
+  c.post url: "...", updated_at: Time.now
+  c.request ip_address: "127.0.0.1", user_agent: "...", referrer: "..."
+  c.author name: "...", email_address: "..."
+
+  c.type       "comment"
+  c.content    "..."
+  c.created_at Time.now
 end
 ```
 
