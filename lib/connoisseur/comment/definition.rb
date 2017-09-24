@@ -8,8 +8,7 @@ class Connoisseur::Comment::Definition
   end
 
   def post(url: nil, updated_at: nil)
-    define permalink: url
-    define comment_post_modified_gmt: format_time(updated_at) if updated_at
+    define permalink: url, comment_post_modified_gmt: format_time(updated_at)
   end
 
   def request(ip_address: nil, user_agent: nil, referrer: nil)
@@ -43,6 +42,8 @@ class Connoisseur::Comment::Definition
   end
 
   def format_time(time)
+    return if time.nil?
+
     if time.respond_to?(:utc)
       time.utc.iso8601
     else
