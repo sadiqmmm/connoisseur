@@ -104,4 +104,21 @@ class Connoisseur::ClientTest < ActiveSupport::TestCase
     assert_requested :post, "https://secret.rest.akismet.com/1.1/submit-ham",
       body: "comment_content=Hello%2C%20world%21", headers: { "User-Agent" => "Connoisseur Tests" }
   end
+
+
+  test "verify key successfully" do
+    stub_request(:post, "https://rest.akismet.com/1.1/verify-key")
+      .with(body: "key=secret&blog=https%3A%2F%2Fexample.com", headers: { "User-Agent" => "Connoisseur Tests" })
+      .to_return(status: 200, body: "valid")
+
+    assert @client.verify_key_for(blog: "https://example.com")
+  end
+
+  test "verify key unsuccessfully" do
+    stub_request(:post, "https://rest.akismet.com/1.1/verify-key")
+      .with(body: "key=secret&blog=https%3A%2F%2Fexample.com", headers: { "User-Agent" => "Connoisseur Tests" })
+      .to_return(status: 200, body: "invalid")
+
+    assert_not @client.verify_key_for(blog: "https://example.com")
+  end
 end

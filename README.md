@@ -58,6 +58,16 @@ comment.ham!
 comment.update! spam: false
 ```
 
+Verify your Akismet API key:
+
+```ruby
+if client.verify_key_for(blog: "https://example.com")
+  # All's well.
+else
+  # The key is invalid for the given blog.
+end
+```
+
 For convenience, set your Akismet API key and user agent globally (e.g. in a Rails initializer):
 
 ```ruby

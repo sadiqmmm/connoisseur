@@ -28,6 +28,10 @@ class Connoisseur::Client
     post "submit-ham", body: comment
   end
 
+  def verify_key_for(blog:)
+    post_without_subdomain("verify-key", body: { key: key, blog: blog }).body == "valid"
+  end
+
   private
 
   def require_usable_key
@@ -39,6 +43,12 @@ class Connoisseur::Client
     HTTParty.post "https://#{key}.rest.akismet.com/1.1/#{endpoint}",
       headers: { "User-Agent" => user_agent }, body: body
   end
+
+  def post_without_subdomain(endpoint, body:)
+    HTTParty.post "https://rest.akismet.com/1.1/#{endpoint}",
+      headers: { "User-Agent" => user_agent }, body: body
+  end
+
 
   def validated_result_from(response)
     Connoisseur::Result.new(response).validated
