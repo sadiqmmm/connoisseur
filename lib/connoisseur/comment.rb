@@ -8,15 +8,15 @@ class Connoisseur::Comment
   end
 
   def check
-    client.check definition
+    client.check parameters
   end
 
   def spam!
-    client.spam! definition
+    client.spam! parameters
   end
 
   def ham!
-    client.ham! definition
+    client.ham! parameters
   end
 
   def update!(spam:)
@@ -25,6 +25,12 @@ class Connoisseur::Comment
     else
       ham!
     end
+  end
+
+  private
+
+  def parameters
+    definition.parameters
   end
 end
 

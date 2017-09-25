@@ -1,6 +1,8 @@
 class Connoisseur::Comment::Definition
+  attr_reader :parameters
+
   def initialize
-    @attributes = {}
+    @parameters = {}
   end
 
   def blog(url: nil, lang: nil, charset: nil)
@@ -35,14 +37,10 @@ class Connoisseur::Comment::Definition
     define is_test: true
   end
 
-  def to_hash
-    @attributes
-  end
-
   private
 
-  def define(attributes)
-    @attributes.merge!(attributes.compact)
+  def define(new_parameters)
+    parameters.merge!(new_parameters.compact)
   end
 
   def format_time(time)

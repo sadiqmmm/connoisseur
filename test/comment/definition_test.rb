@@ -7,7 +7,7 @@ class Connoisseur::Comment::DefinitionTest < ActiveSupport::TestCase
 
   test "define blog" do
     @definition.blog url: "https://example.com", lang: "en", charset: "UTF-8"
-    assert_equal({ blog: "https://example.com", blog_lang: "en", blog_charset: "UTF-8" }, @definition.to_hash)
+    assert_equal({ blog: "https://example.com", blog_lang: "en", blog_charset: "UTF-8" }, @definition.parameters)
   end
 
   test "define post" do
@@ -18,7 +18,7 @@ class Connoisseur::Comment::DefinitionTest < ActiveSupport::TestCase
         permalink: "https://example.com/posts/hello-world",
         comment_post_modified_gmt: "2017-09-24T16:00:00Z"
       },
-      @definition.to_hash
+      @definition.parameters
     )
   end
 
@@ -31,7 +31,7 @@ class Connoisseur::Comment::DefinitionTest < ActiveSupport::TestCase
         user_agent: "Google Chrome",
         referrer: "https://example.com"
       },
-      @definition.to_hash
+      @definition.parameters
     )
   end
 
@@ -44,7 +44,7 @@ class Connoisseur::Comment::DefinitionTest < ActiveSupport::TestCase
         comment_author_email: "jane@example.com",
         comment_author_url: "https://example.com"
       },
-      @definition.to_hash
+      @definition.parameters
     )
   end
 
@@ -58,28 +58,28 @@ class Connoisseur::Comment::DefinitionTest < ActiveSupport::TestCase
         comment_author_url: "https://example.com",
         user_role: :administrator
       },
-      @definition.to_hash
+      @definition.parameters
     )
   end
 
   test "define type" do
     @definition.type "comment"
-    assert_equal({ comment_type: "comment" }, @definition.to_hash)
+    assert_equal({ comment_type: "comment" }, @definition.parameters)
   end
 
   test "define content" do
     @definition.content "Nice post!"
-    assert_equal({ comment_content: "Nice post!" }, @definition.to_hash)
+    assert_equal({ comment_content: "Nice post!" }, @definition.parameters)
   end
 
   test "define creation time" do
     @definition.created_at Time.parse("2017-09-24 12:00:00 EDT")
-    assert_equal({ comment_date_gmt: "2017-09-24T16:00:00Z" }, @definition.to_hash)
+    assert_equal({ comment_date_gmt: "2017-09-24T16:00:00Z" }, @definition.parameters)
   end
 
   test "define test" do
     @definition.test!
-    assert_equal({ is_test: true }, @definition.to_hash)
+    assert_equal({ is_test: true }, @definition.parameters)
   end
 
   test "define everything" do
@@ -111,7 +111,7 @@ class Connoisseur::Comment::DefinitionTest < ActiveSupport::TestCase
         comment_date_gmt: "2017-09-24T16:00:00Z",
         is_test: true
       },
-      @definition.to_hash
+      @definition.parameters
     )
   end
 end
