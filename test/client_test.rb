@@ -44,19 +44,35 @@ class Connoisseur::ClientTest < ActiveSupport::TestCase
       .with(body: "comment_content=Hello%2C%20world%21", headers: { "User-Agent" => "Connoisseur Tests" })
       .to_return(status: 500, body: "false")
 
-    assert_raises Connoisseur::Result::Invalid do
+    error = assert_raises Connoisseur::Result::Invalid do
       @comment.check
     end
+
+    assert_equal 'Expected successful response, got 500', error.message
   end
 
-  test "check returning unexpected body" do
+  test "check returning unexpected body without help" do
     stub_request(:post, "https://secret.rest.akismet.com/1.1/comment-check")
       .with(body: "comment_content=Hello%2C%20world%21", headers: { "User-Agent" => "Connoisseur Tests" })
-      .to_return(status: 200, body: "Oops!")
+      .to_return(status: 200, body: "invalid")
 
-    assert_raises Connoisseur::Result::Invalid do
+    error = assert_raises Connoisseur::Result::Invalid do
       @comment.check
     end
+
+    assert_equal 'Expected boolean response body, got "invalid"', error.message
+  end
+
+  test "check returning unexpected body with help" do
+    stub_request(:post, "https://secret.rest.akismet.com/1.1/comment-check")
+      .with(body: "comment_content=Hello%2C%20world%21", headers: { "User-Agent" => "Connoisseur Tests" })
+      .to_return(status: 200, body: "invalid", headers: { "X-Akismet-Debug-Help" => "We were unable to parse your blog URI" })
+
+    error = assert_raises Connoisseur::Result::Invalid do
+      @comment.check
+    end
+
+    assert_equal 'Expected boolean response body, got "invalid" (We were unable to parse your blog URI)', error.message
   end
 
 
