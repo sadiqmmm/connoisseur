@@ -35,9 +35,22 @@ class Connoisseur::Comment::DefinitionTest < ActiveSupport::TestCase
     )
   end
 
-  test "define author" do
+  test "define author without role" do
     @definition.author name: "Jane Smith", email_address: "jane@example.com"
     assert_equal({ comment_author: "Jane Smith", comment_author_email: "jane@example.com" }, @definition.to_hash)
+  end
+
+  test "define author with role" do
+    @definition.author name: "Jane Smith", email_address: "jane@example.com", role: :administrator
+
+    assert_equal(
+      {
+        comment_author: "Jane Smith",
+        comment_author_email: "jane@example.com",
+        user_role: :administrator
+      },
+      @definition.to_hash
+    )
   end
 
   test "define type" do
@@ -55,14 +68,20 @@ class Connoisseur::Comment::DefinitionTest < ActiveSupport::TestCase
     assert_equal({ comment_date_gmt: "2017-09-24T16:00:00Z" }, @definition.to_hash)
   end
 
+  test "define test" do
+    @definition.test!
+    assert_equal({ is_test: true }, @definition.to_hash)
+  end
+
   test "define everything" do
     @definition.blog url: "https://example.com", lang: "en", charset: "UTF-8"
     @definition.post url: "https://example.com/posts/hello-world", updated_at: Time.parse("2017-09-24 12:00:00 EDT")
     @definition.request ip_address: "24.29.18.175", user_agent: "Google Chrome", referrer: "https://example.com"
-    @definition.author name: "Jane Smith", email_address: "jane@example.com"
+    @definition.author name: "Jane Smith", email_address: "jane@example.com", role: :administrator
     @definition.type "comment"
     @definition.content "Nice post!"
     @definition.created_at Time.parse("2017-09-24 12:00:00 EDT")
+    @definition.test!
 
     assert_equal(
       {
@@ -76,9 +95,11 @@ class Connoisseur::Comment::DefinitionTest < ActiveSupport::TestCase
         referrer: "https://example.com",
         comment_author: "Jane Smith",
         comment_author_email: "jane@example.com",
+        user_role: :administrator,
         comment_type: "comment",
         comment_content: "Nice post!",
-        comment_date_gmt: "2017-09-24T16:00:00Z"
+        comment_date_gmt: "2017-09-24T16:00:00Z",
+        is_test: true
       },
       @definition.to_hash
     )

@@ -25,11 +25,14 @@ comment = client.comment do |c|
   c.blog url: "...", lang: "en", charset: "UTF-8"
   c.post url: "...", updated_at: Time.now
   c.request ip_address: "127.0.0.1", user_agent: "...", referrer: "..."
-  c.author name: "...", email_address: "..."
+  c.author name: "...", email_address: "..." #, role: :administrator
 
   c.type       "comment"
   c.content    "..."
   c.created_at Time.now
+
+  # Flag the comment for use in test queries:
+  # c.test!
 end
 ```
 

@@ -15,8 +15,8 @@ class Connoisseur::Comment::Definition
     define user_ip: ip_address, user_agent: user_agent, referrer: referrer
   end
 
-  def author(name: nil, email_address: nil)
-    define comment_author: name, comment_author_email: email_address
+  def author(name: nil, email_address: nil, role: nil)
+    define comment_author: name, comment_author_email: email_address, user_role: role
   end
 
   def type(type)
@@ -29,6 +29,10 @@ class Connoisseur::Comment::Definition
 
   def created_at(created_at)
     define comment_date_gmt: format_time(created_at)
+  end
+
+  def test!
+    define is_test: true
   end
 
   def to_hash
