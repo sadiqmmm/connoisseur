@@ -15,8 +15,8 @@ class Connoisseur::Comment::Definition
     define user_ip: ip_address, user_agent: user_agent, referrer: referrer
   end
 
-  def author(name: nil, email_address: nil, role: nil)
-    define comment_author: name, comment_author_email: email_address, user_role: role
+  def author(name: nil, email_address: nil, url: nil, role: nil)
+    define comment_author: name, comment_author_email: email_address, comment_author_url: url, user_role: role
   end
 
   def type(type)

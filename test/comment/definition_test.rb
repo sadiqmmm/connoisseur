@@ -36,17 +36,26 @@ class Connoisseur::Comment::DefinitionTest < ActiveSupport::TestCase
   end
 
   test "define author without role" do
-    @definition.author name: "Jane Smith", email_address: "jane@example.com"
-    assert_equal({ comment_author: "Jane Smith", comment_author_email: "jane@example.com" }, @definition.to_hash)
-  end
-
-  test "define author with role" do
-    @definition.author name: "Jane Smith", email_address: "jane@example.com", role: :administrator
+    @definition.author name: "Jane Smith", email_address: "jane@example.com", url: "https://example.com"
 
     assert_equal(
       {
         comment_author: "Jane Smith",
         comment_author_email: "jane@example.com",
+        comment_author_url: "https://example.com"
+      },
+      @definition.to_hash
+    )
+  end
+
+  test "define author with role" do
+    @definition.author name: "Jane Smith", email_address: "jane@example.com", url: "https://example.com", role: :administrator
+
+    assert_equal(
+      {
+        comment_author: "Jane Smith",
+        comment_author_email: "jane@example.com",
+        comment_author_url: "https://example.com",
         user_role: :administrator
       },
       @definition.to_hash
@@ -77,7 +86,7 @@ class Connoisseur::Comment::DefinitionTest < ActiveSupport::TestCase
     @definition.blog url: "https://example.com", lang: "en", charset: "UTF-8"
     @definition.post url: "https://example.com/posts/hello-world", updated_at: Time.parse("2017-09-24 12:00:00 EDT")
     @definition.request ip_address: "24.29.18.175", user_agent: "Google Chrome", referrer: "https://example.com"
-    @definition.author name: "Jane Smith", email_address: "jane@example.com", role: :administrator
+    @definition.author name: "Jane Smith", email_address: "jane@example.com", url: "https://example.com", role: :administrator
     @definition.type "comment"
     @definition.content "Nice post!"
     @definition.created_at Time.parse("2017-09-24 12:00:00 EDT")
@@ -95,6 +104,7 @@ class Connoisseur::Comment::DefinitionTest < ActiveSupport::TestCase
         referrer: "https://example.com",
         comment_author: "Jane Smith",
         comment_author_email: "jane@example.com",
+        comment_author_url: "https://example.com",
         user_role: :administrator,
         comment_type: "comment",
         comment_content: "Nice post!",
