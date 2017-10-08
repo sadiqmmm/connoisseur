@@ -5,8 +5,8 @@ class Connoisseur::Comment::Definition
     @parameters = {}
   end
 
-  def blog(url: nil, lang: nil, charset: nil)
-    define blog: url, blog_lang: lang, blog_charset: charset
+  def blog(url: nil, language: nil, charset: nil)
+    define blog: url, blog_lang: language, blog_charset: charset
   end
 
   def post(url: nil, updated_at: nil)

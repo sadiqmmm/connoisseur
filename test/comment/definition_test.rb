@@ -6,7 +6,7 @@ class Connoisseur::Comment::DefinitionTest < ActiveSupport::TestCase
   end
 
   test "define blog" do
-    @definition.blog url: "https://example.com", lang: "en", charset: "UTF-8"
+    @definition.blog url: "https://example.com", language: "en", charset: "UTF-8"
     assert_equal({ blog: "https://example.com", blog_lang: "en", blog_charset: "UTF-8" }, @definition.parameters)
   end
 
@@ -83,7 +83,7 @@ class Connoisseur::Comment::DefinitionTest < ActiveSupport::TestCase
   end
 
   test "define everything" do
-    @definition.blog url: "https://example.com", lang: "en", charset: "UTF-8"
+    @definition.blog url: "https://example.com", language: "en", charset: "UTF-8"
     @definition.post url: "https://example.com/posts/hello-world", updated_at: Time.parse("2017-09-24 12:00:00 EDT")
     @definition.request ip_address: "24.29.18.175", user_agent: "Google Chrome", referrer: "https://example.com"
     @definition.author name: "Jane Smith", email_address: "jane@example.com", url: "https://example.com", role: :administrator
