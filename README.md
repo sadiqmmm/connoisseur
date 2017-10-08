@@ -22,7 +22,7 @@ Build a comment:
 
 ```ruby
 comment = client.comment do |c|
-  c.blog url: "...", lang: "en", charset: "UTF-8"
+  c.blog url: "...", language: "en", charset: "UTF-8"
   c.post url: "...", updated_at: Time.now
   c.request ip_address: "127.0.0.1", user_agent: "...", referrer: "..."
   c.author name: "...", email_address: "..." #, role: :administrator
