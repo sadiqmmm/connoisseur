@@ -10,7 +10,7 @@ class Connoisseur::Comment::Definition
   end
 
   def post(url: nil, updated_at: nil)
-    define permalink: url, comment_post_modified_gmt: format_time(updated_at)
+    define permalink: url, comment_post_modified_gmt: updated_at&.utc.iso8601
   end
 
   def request(ip_address: nil, user_agent: nil, referrer: nil)
@@ -30,7 +30,7 @@ class Connoisseur::Comment::Definition
   end
 
   def created_at(created_at)
-    define comment_date_gmt: format_time(created_at)
+    define comment_date_gmt: created_at&.utc.iso8601
   end
 
   def test!
@@ -39,17 +39,7 @@ class Connoisseur::Comment::Definition
 
   private
 
-  def define(new_parameters)
-    parameters.merge!(new_parameters.compact)
-  end
-
-  def format_time(time)
-    return if time.nil?
-
-    if time.respond_to?(:utc)
-      time.utc.iso8601
-    else
-      time.to_s
-    end
+  def define(definitions)
+    parameters.merge!(definitions.compact)
   end
 end
