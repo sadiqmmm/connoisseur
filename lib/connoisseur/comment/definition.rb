@@ -40,6 +40,6 @@ class Connoisseur::Comment::Definition
   private
 
   def define(definitions)
-    parameters.merge!(definitions.compact)
+    parameters.merge!(definitions.reject { |key, value| value.nil? })
   end
 end
