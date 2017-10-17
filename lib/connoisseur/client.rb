@@ -5,31 +5,73 @@ require "connoisseur/result"
 class Connoisseur::Client
   attr_reader :key, :user_agent
 
+  # Public: Initialize a Connoisseur client.
+  #
+  # key        - Your Akismet API key, obtained from https://akismet.com. The default
+  #              is Connoisseur.api_key.
+  # user_agent - The String value the client should provide in the User-Agent header when issuing
+  #              HTTP requests to the Akismet API. The default is Connoisseur.user_agent.
   def initialize(key: Connoisseur.api_key, user_agent: Connoisseur.user_agent)
     @key, @user_agent = key, user_agent
 
     require_usable_key
   end
 
+  # Public: Build a comment.
+  #
+  # Yields a Connoisseur::Comment::Definition which can be used to declare the comment's attributes.
+  #
+  # Examples
+  #
+  #   client.comment do |c|
+  #     c.blog url: "https://example.com"
+  #     c.post url: "https://example.com/posts/hello-world"
+  #     c.author name: "Jane Smith"
+  #     c.content "Nice post!"
+  #   end
+  #   # => #<Connoisseur::Comment ...>
+  #
+  # Returns a Connoisseur::Comment.
   def comment(&block)
-    Connoisseur::Comment.new self, &block
+    Connoisseur::Comment.define self, &block
   end
 
 
+  # Public: Verify the client's Akismet API key.
+  #
+  # blog - The URL of the blog associated with the key.
+  #
+  # Returns true or false indicating whether the key is valid for the given blog.
+  def verify_key_for(blog:)
+    post_without_subdomain("verify-key", body: { key: key, blog: blog }).body == "valid"
+  end
+
+  # Internal: Determine whether a comment is spam or ham.
+  #
+  # comment - A Hash of POST parameters describing the comment.
+  #
+  # Returns a Connoisseur::Result.
+  # Raises Connoisseur::Result::Invalid if the Akismet API provides an unexpected response.
   def check(comment)
     validated_result_from post("comment-check", body: comment)
   end
 
+  # Internal: Inform Akismet that a comment should have been marked spam.
+  #
+  # comment - A Hash of POST parameters describing the comment.
+  #
+  # Returns nothing.
   def spam!(comment)
     post "submit-spam", body: comment
   end
 
+  # Internal: Inform Akismet that a comment should have been marked ham.
+  #
+  # comment - A Hash of POST parameters describing the comment.
+  #
+  # Returns nothing.
   def ham!(comment)
     post "submit-ham", body: comment
-  end
-
-  def verify_key_for(blog:)
-    post_without_subdomain("verify-key", body: { key: key, blog: blog }).body == "valid"
   end
 
   private

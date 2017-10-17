@@ -5,15 +5,28 @@ class Connoisseur::Result
     @response = response
   end
 
+  # Public: Determine whether a comment is spam.
+  #
+  # Returns a boolean indicating whether Akismet recognizes the comment as spam.
   def spam?
     response.body == "true"
   end
 
+  # Public: Determine whether a comment is egregious spam which should be discarded.
+  #
+  # Returns a boolean indicating whether Akismet recommends discarding the comment.
   def discard?
     response.headers["X-Akismet-Pro-Tip"] == "discard"
   end
 
 
+  # Public: Validate the response from the Akismet API.
+  #
+  # Ensures that the response has a successful status code (in the range 200..300) and that the
+  # response body contains a boolean.
+  #
+  # Returns the receiving Result.
+  # Raises Connoisseur::Result::Invalid if the Akismet API provided an unexpected response.
   def validated
     require_successful_response
     require_boolean_response_body
