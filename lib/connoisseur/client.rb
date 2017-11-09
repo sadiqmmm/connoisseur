@@ -77,7 +77,7 @@ class Connoisseur::Client
   private
 
   def require_usable_key
-    raise ArgumentError, "Expected Akismet API key, got #{key.inspect}" unless key.present?
+    raise ArgumentError, "Expected Akismet API key, got #{key.inspect}" if !key || key =~ /\A[[:space:]]*\z/
   end
 
 
