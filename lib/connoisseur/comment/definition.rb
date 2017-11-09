@@ -10,7 +10,7 @@ class Connoisseur::Comment::Definition
   end
 
   def post(url: nil, updated_at: nil)
-    define permalink: url, comment_post_modified_gmt: updated_at&.utc.iso8601
+    define permalink: url, comment_post_modified_gmt: updated_at&.utc&.iso8601
   end
 
   def request(ip_address: nil, user_agent: nil, referrer: nil)

@@ -10,7 +10,7 @@ class Connoisseur::Comment::DefinitionTest < ActiveSupport::TestCase
     assert_equal({ blog: "https://example.com", blog_lang: "en", blog_charset: "UTF-8" }, @definition.parameters)
   end
 
-  test "define post" do
+  test "define post with timestamp" do
     @definition.post url: "https://example.com/posts/hello-world", updated_at: Time.parse("2017-09-24 12:00:00 EDT")
 
     assert_equal(
@@ -20,6 +20,11 @@ class Connoisseur::Comment::DefinitionTest < ActiveSupport::TestCase
       },
       @definition.parameters
     )
+  end
+
+  test "define post without timestamp" do
+    @definition.post url: "https://example.com/posts/hello-world"
+    assert_equal({ permalink: "https://example.com/posts/hello-world" }, @definition.parameters)
   end
 
   test "define request" do
