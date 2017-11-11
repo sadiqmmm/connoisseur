@@ -1,29 +1,31 @@
 class Connoisseur::Result
   class Invalid < StandardError; end
 
+  # Internal: Initialize a Connoisseur::Result.
+  #
+  # response - An HTTParty::Response from a comment check request.
   def initialize(response)
     @response = response
   end
 
-  # Public: Determine whether a comment is spam.
+  # Public: Determine whether the comment is spam.
   #
   # Returns a boolean indicating whether Akismet recognizes the comment as spam.
   def spam?
     response.body == "true"
   end
 
-  # Public: Determine whether a comment is egregious spam which should be discarded.
+  # Public: Determine whether the comment is egregious spam which should be discarded.
   #
   # Returns a boolean indicating whether Akismet recommends discarding the comment.
   def discard?
     response.headers["X-Akismet-Pro-Tip"] == "discard"
   end
 
-
-  # Public: Validate the response from the Akismet API.
+  # Internal: Validate the response from the Akismet API.
   #
-  # Ensures that the response has a successful status code (in the range 200..300) and that the
-  # response body contains a boolean.
+  # Ensures that the response has a successful status code (in the range 200...300) and that the
+  # response body is a boolean ("true" or "false").
   #
   # Returns the receiving Result.
   # Raises Connoisseur::Result::Invalid if the Akismet API provided an unexpected response.

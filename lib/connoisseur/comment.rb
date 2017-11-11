@@ -3,15 +3,19 @@ class Connoisseur::Comment
 
   # Internal: Define a comment via a DSL.
   #
-  # client - A Connoisseur::Client through which API requests concerning the comment can be issued.
+  # client - A Connoisseur::Client for issuing relevant API requests.
   #
-  # Yields a Comment::Definition which can be used to declare the comment's attributes.
+  # Yields a Comment::Definition for declaring the comment's attributes.
   #
   # Returns a Connoisseur::Comment.
   def self.define(client, &block)
     new client, Definition.new.tap(&block).parameters
   end
 
+  # Internal: Initialize a Connoisseur::Comment.
+  #
+  # client     - A Connoisseur::Client for issuing relevant API requests.
+  # parameters - A Hash of POST parameters describing the comment for use in API requests.
   def initialize(client, parameters)
     @client, @parameters = client, parameters
   end
@@ -25,7 +29,7 @@ class Connoisseur::Comment
   #   result.valid?
   #
   # Returns a Connoisseur::Result.
-  # Raises Connoisseur::Result::Invalid if the Akismet API provides an unexpected response.
+  # Raises Connoisseur::Result::Invalid if the Akismet API responds unexpectedly.
   def check
     client.check parameters
   end
@@ -44,7 +48,7 @@ class Connoisseur::Comment
     client.ham! parameters
   end
 
-  # Public: Inform Akismet that the comment was incorrectly classified.
+  # Public: Inform Akismet that it incorrectly classified the comment.
   #
   # spam - A boolean indicating whether the comment should have been marked spam.
   #

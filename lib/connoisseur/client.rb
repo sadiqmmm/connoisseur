@@ -19,7 +19,7 @@ class Connoisseur::Client
 
   # Public: Build a comment.
   #
-  # Yields a Connoisseur::Comment::Definition which can be used to declare the comment's attributes.
+  # Yields a Connoisseur::Comment::Definition for declaring the comment's attributes.
   #
   # Examples
   #
@@ -35,7 +35,6 @@ class Connoisseur::Client
   def comment(&block)
     Connoisseur::Comment.define self, &block
   end
-
 
   # Public: Verify the client's Akismet API key.
   #
@@ -53,7 +52,7 @@ class Connoisseur::Client
   # Returns a Connoisseur::Result.
   # Raises Connoisseur::Result::Invalid if the Akismet API provides an unexpected response.
   def check(comment)
-    validated_result_from post("comment-check", body: comment)
+    Connoisseur::Result.new(post("comment-check", body: comment)).validated
   end
 
   # Internal: Inform Akismet that a comment should have been marked spam.
@@ -82,17 +81,14 @@ class Connoisseur::Client
 
 
   def post(endpoint, body:)
-    HTTParty.post "https://#{key}.rest.akismet.com/1.1/#{endpoint}",
-      headers: { "User-Agent" => user_agent }, body: body
+    HTTParty.post "https://#{key}.rest.akismet.com/1.1/#{endpoint}", headers: headers, body: body
   end
 
   def post_without_subdomain(endpoint, body:)
-    HTTParty.post "https://rest.akismet.com/1.1/#{endpoint}",
-      headers: { "User-Agent" => user_agent }, body: body
+    HTTParty.post "https://rest.akismet.com/1.1/#{endpoint}", headers: headers, body: body
   end
 
-
-  def validated_result_from(response)
-    Connoisseur::Result.new(response).validated
+  def headers
+    { "User-Agent" => user_agent }
   end
 end
