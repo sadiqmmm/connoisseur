@@ -8,8 +8,8 @@ class Connoisseur::Comment
   # Yields a Comment::Definition which can be used to declare the comment's attributes.
   #
   # Returns a Connoisseur::Comment.
-  def self.define(client)
-    new client, Definition.new.tap { |definition| yield definition }.parameters
+  def self.define(client, &block)
+    new client, Definition.new.tap(&block).parameters
   end
 
   def initialize(client, parameters)
