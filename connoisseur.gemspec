@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name     = "connoisseur"
-  s.version  = "1.5.0"
+  s.version  = "1.6.0"
   s.authors  = "George Claghorn"
   s.email    = "georgeclaghorn@gmail.com"
   s.summary  = "Client for the Akismet spam filtering service"
@@ -16,4 +16,4 @@ Gem::Specification.new do |s|
 
   s.files      = `git ls-files`.split("\n")
   s.test_files = `git ls-files -- test/*`.split("\n")
- end
+end
