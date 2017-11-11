@@ -3,8 +3,6 @@ require "connoisseur/comment"
 require "connoisseur/result"
 
 class Connoisseur::Client
-  attr_reader :key, :user_agent
-
   # Public: Initialize a Connoisseur client.
   #
   # key        - Your Akismet API key, obtained from https://akismet.com. The default
@@ -74,6 +72,8 @@ class Connoisseur::Client
   end
 
   private
+
+  attr_reader :key, :user_agent
 
   def require_usable_key
     raise ArgumentError, "Expected Akismet API key, got #{key.inspect}" if !key || key =~ /\A[[:space:]]*\z/
