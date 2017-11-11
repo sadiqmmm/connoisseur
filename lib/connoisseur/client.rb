@@ -1,4 +1,3 @@
-require "httparty"
 require "connoisseur/comment"
 require "connoisseur/result"
 
@@ -81,11 +80,13 @@ class Connoisseur::Client
 
 
   def post(endpoint, body:)
-    HTTParty.post "https://#{key}.rest.akismet.com/1.1/#{endpoint}", headers: headers, body: body
+    Net::HTTP.post URI("https://#{key}.rest.akismet.com/1.1/#{endpoint}"),
+      URI.encode_www_form(body), headers
   end
 
   def post_without_subdomain(endpoint, body:)
-    HTTParty.post "https://rest.akismet.com/1.1/#{endpoint}", headers: headers, body: body
+    Net::HTTP.post URI("https://rest.akismet.com/1.1/#{endpoint}"),
+      URI.encode_www_form(body), headers
   end
 
   def headers

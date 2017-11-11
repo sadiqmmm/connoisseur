@@ -7,13 +7,12 @@ Gem::Specification.new do |s|
   s.homepage = "https://github.com/georgeclaghorn/connoisseur"
   s.license  = "MIT"
 
-  s.required_ruby_version = ">= 2.3.0"
-
-  s.add_dependency "httparty", "~> 0.15.6"
+  s.required_ruby_version = ">= 2.4.0"
 
   s.add_development_dependency "rake", "~> 12.0"
   s.add_development_dependency "activesupport", "~> 5.1"
   s.add_development_dependency "webmock", "~> 3.0"
+  s.add_development_dependency "byebug", "~> 9.1"
 
   s.files      = `git ls-files`.split("\n")
   s.test_files = `git ls-files -- test/*`.split("\n")

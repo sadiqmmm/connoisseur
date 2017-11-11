@@ -3,7 +3,7 @@ class Connoisseur::Result
 
   # Internal: Initialize a Connoisseur::Result.
   #
-  # response - An HTTParty::Response from a comment check request.
+  # response - A Net::HTTPResponse from a comment check request.
   def initialize(response)
     @response = response
   end
@@ -19,7 +19,7 @@ class Connoisseur::Result
   #
   # Returns a boolean indicating whether Akismet recommends discarding the comment.
   def discard?
-    response.headers["X-Akismet-Pro-Tip"] == "discard"
+    response.header["X-Akismet-Pro-Tip"] == "discard"
   end
 
   # Internal: Validate the response from the Akismet API.
@@ -41,12 +41,12 @@ class Connoisseur::Result
   attr_reader :response
 
   def require_successful_response
-    raise InvalidError, "Expected successful response, got #{response.code}" unless response.success?
+    raise InvalidError, "Expected successful response, got #{response.code}" unless response.is_a?(Net::HTTPSuccess)
   end
 
   def require_boolean_response_body
     unless %w( true false ).include?(response.body)
-      if message = response.headers["X-Akismet-Debug-Help"]
+      if message = response.header["X-Akismet-Debug-Help"]
         raise InvalidError, "Expected boolean response body, got #{response.body.inspect} (#{message})"
       else
         raise InvalidError, "Expected boolean response body, got #{response.body.inspect}"

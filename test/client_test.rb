@@ -11,7 +11,7 @@ class Connoisseur::ClientTest < ActiveSupport::TestCase
 
   test "check ham" do
     stub_request(:post, "https://secret.rest.akismet.com/1.1/comment-check")
-      .with(body: "comment_content=Hello%2C%20world%21", headers: { "User-Agent" => "Connoisseur Tests" })
+      .with(body: "comment_content=Hello%2C+world%21", headers: { "User-Agent" => "Connoisseur Tests" })
       .to_return(status: 200, body: "false")
 
     result = @comment.check
@@ -21,7 +21,7 @@ class Connoisseur::ClientTest < ActiveSupport::TestCase
 
   test "check spam" do
     stub_request(:post, "https://secret.rest.akismet.com/1.1/comment-check")
-      .with(body: "comment_content=Hello%2C%20world%21", headers: { "User-Agent" => "Connoisseur Tests" })
+      .with(body: "comment_content=Hello%2C+world%21", headers: { "User-Agent" => "Connoisseur Tests" })
       .to_return(status: 200, body: "true")
 
     result = @comment.check
@@ -31,7 +31,7 @@ class Connoisseur::ClientTest < ActiveSupport::TestCase
 
   test "check discardable spam" do
     stub_request(:post, "https://secret.rest.akismet.com/1.1/comment-check")
-      .with(body: "comment_content=Hello%2C%20world%21", headers: { "User-Agent" => "Connoisseur Tests" })
+      .with(body: "comment_content=Hello%2C+world%21", headers: { "User-Agent" => "Connoisseur Tests" })
       .to_return(status: 200, body: "true", headers: { "X-Akismet-Pro-Tip" => "discard" })
 
     result = @comment.check
@@ -41,7 +41,7 @@ class Connoisseur::ClientTest < ActiveSupport::TestCase
 
   test "check returning error status" do
     stub_request(:post, "https://secret.rest.akismet.com/1.1/comment-check")
-      .with(body: "comment_content=Hello%2C%20world%21", headers: { "User-Agent" => "Connoisseur Tests" })
+      .with(body: "comment_content=Hello%2C+world%21", headers: { "User-Agent" => "Connoisseur Tests" })
       .to_return(status: 500, body: "false")
 
     error = assert_raises Connoisseur::Result::InvalidError do
@@ -53,7 +53,7 @@ class Connoisseur::ClientTest < ActiveSupport::TestCase
 
   test "check returning unexpected body without help" do
     stub_request(:post, "https://secret.rest.akismet.com/1.1/comment-check")
-      .with(body: "comment_content=Hello%2C%20world%21", headers: { "User-Agent" => "Connoisseur Tests" })
+      .with(body: "comment_content=Hello%2C+world%21", headers: { "User-Agent" => "Connoisseur Tests" })
       .to_return(status: 200, body: "invalid")
 
     error = assert_raises Connoisseur::Result::InvalidError do
@@ -65,7 +65,7 @@ class Connoisseur::ClientTest < ActiveSupport::TestCase
 
   test "check returning unexpected body with help" do
     stub_request(:post, "https://secret.rest.akismet.com/1.1/comment-check")
-      .with(body: "comment_content=Hello%2C%20world%21", headers: { "User-Agent" => "Connoisseur Tests" })
+      .with(body: "comment_content=Hello%2C+world%21", headers: { "User-Agent" => "Connoisseur Tests" })
       .to_return(status: 200, body: "invalid", headers: { "X-Akismet-Debug-Help" => "We were unable to parse your blog URI" })
 
     error = assert_raises Connoisseur::Result::InvalidError do
@@ -80,14 +80,14 @@ class Connoisseur::ClientTest < ActiveSupport::TestCase
     @comment.spam!
 
     assert_requested :post, "https://secret.rest.akismet.com/1.1/submit-spam",
-      body: "comment_content=Hello%2C%20world%21", headers: { "User-Agent" => "Connoisseur Tests" }
+      body: "comment_content=Hello%2C+world%21", headers: { "User-Agent" => "Connoisseur Tests" }
   end
 
   test "submit ham" do
     @comment.ham!
 
     assert_requested :post, "https://secret.rest.akismet.com/1.1/submit-ham",
-      body: "comment_content=Hello%2C%20world%21", headers: { "User-Agent" => "Connoisseur Tests" }
+      body: "comment_content=Hello%2C+world%21", headers: { "User-Agent" => "Connoisseur Tests" }
   end
 
 
@@ -95,14 +95,14 @@ class Connoisseur::ClientTest < ActiveSupport::TestCase
     @comment.update! spam: true
 
     assert_requested :post, "https://secret.rest.akismet.com/1.1/submit-spam",
-      body: "comment_content=Hello%2C%20world%21", headers: { "User-Agent" => "Connoisseur Tests" }
+      body: "comment_content=Hello%2C+world%21", headers: { "User-Agent" => "Connoisseur Tests" }
   end
 
   test "update to ham" do
     @comment.update! spam: false
 
     assert_requested :post, "https://secret.rest.akismet.com/1.1/submit-ham",
-      body: "comment_content=Hello%2C%20world%21", headers: { "User-Agent" => "Connoisseur Tests" }
+      body: "comment_content=Hello%2C+world%21", headers: { "User-Agent" => "Connoisseur Tests" }
   end
 
 

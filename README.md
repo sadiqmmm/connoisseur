@@ -77,6 +77,10 @@ Connoisseur.user_agent = "..."
 client = Connoisseur::Client.new
 ```
 
+## Requirements
+
+Connoisseur requires Ruby 2.4.0 or newer. It has no third-party dependencies.
+
 ## License
 
 Copyright (c) 2017 George Claghorn.
