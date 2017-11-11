@@ -48,7 +48,7 @@ class Connoisseur::Client
   # comment - A Hash of POST parameters describing the comment.
   #
   # Returns a Connoisseur::Result.
-  # Raises Connoisseur::Result::Invalid if the Akismet API provides an unexpected response.
+  # Raises Connoisseur::Result::InvalidError if the Akismet API provides an unexpected response.
   def check(comment)
     Connoisseur::Result.new(post("comment-check", body: comment)).validated
   end

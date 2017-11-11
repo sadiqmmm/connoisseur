@@ -29,7 +29,7 @@ class Connoisseur::Comment
   #   result.valid?
   #
   # Returns a Connoisseur::Result.
-  # Raises Connoisseur::Result::Invalid if the Akismet API responds unexpectedly.
+  # Raises Connoisseur::Result::InvalidError if the Akismet API responds unexpectedly.
   def check
     client.check parameters
   end

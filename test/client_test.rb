@@ -44,7 +44,7 @@ class Connoisseur::ClientTest < ActiveSupport::TestCase
       .with(body: "comment_content=Hello%2C%20world%21", headers: { "User-Agent" => "Connoisseur Tests" })
       .to_return(status: 500, body: "false")
 
-    error = assert_raises Connoisseur::Result::Invalid do
+    error = assert_raises Connoisseur::Result::InvalidError do
       @comment.check
     end
 
@@ -56,7 +56,7 @@ class Connoisseur::ClientTest < ActiveSupport::TestCase
       .with(body: "comment_content=Hello%2C%20world%21", headers: { "User-Agent" => "Connoisseur Tests" })
       .to_return(status: 200, body: "invalid")
 
-    error = assert_raises Connoisseur::Result::Invalid do
+    error = assert_raises Connoisseur::Result::InvalidError do
       @comment.check
     end
 
@@ -68,7 +68,7 @@ class Connoisseur::ClientTest < ActiveSupport::TestCase
       .with(body: "comment_content=Hello%2C%20world%21", headers: { "User-Agent" => "Connoisseur Tests" })
       .to_return(status: 200, body: "invalid", headers: { "X-Akismet-Debug-Help" => "We were unable to parse your blog URI" })
 
-    error = assert_raises Connoisseur::Result::Invalid do
+    error = assert_raises Connoisseur::Result::InvalidError do
       @comment.check
     end
 

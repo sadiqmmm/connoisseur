@@ -1,5 +1,5 @@
 class Connoisseur::Result
-  class Invalid < StandardError; end
+  class InvalidError < StandardError; end
 
   # Internal: Initialize a Connoisseur::Result.
   #
@@ -28,7 +28,7 @@ class Connoisseur::Result
   # response body is a boolean ("true" or "false").
   #
   # Returns the receiving Result.
-  # Raises Connoisseur::Result::Invalid if the Akismet API provided an unexpected response.
+  # Raises Connoisseur::Result::InvalidError if the Akismet API provided an unexpected response.
   def validated
     require_successful_response
     require_boolean_response_body
@@ -41,15 +41,15 @@ class Connoisseur::Result
   attr_reader :response
 
   def require_successful_response
-    raise Invalid, "Expected successful response, got #{response.code}" unless response.success?
+    raise InvalidError, "Expected successful response, got #{response.code}" unless response.success?
   end
 
   def require_boolean_response_body
     unless %w( true false ).include?(response.body)
       if message = response.headers["X-Akismet-Debug-Help"]
-        raise Invalid, "Expected boolean response body, got #{response.body.inspect} (#{message})"
+        raise InvalidError, "Expected boolean response body, got #{response.body.inspect} (#{message})"
       else
-        raise Invalid, "Expected boolean response body, got #{response.body.inspect}"
+        raise InvalidError, "Expected boolean response body, got #{response.body.inspect}"
       end
     end
   end
