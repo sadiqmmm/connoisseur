@@ -2,9 +2,7 @@ require "test_helper"
 
 class Connoisseur::ClientTest < ActiveSupport::TestCase
   setup do
-    @client = Connoisseur::Client.new
-
-    @comment = @client.comment do |c|
+    @comment = CLIENT.comment do |c|
       c.content "Hello, world!"
     end
   end
@@ -111,7 +109,7 @@ class Connoisseur::ClientTest < ActiveSupport::TestCase
       .with(body: "key=secret&blog=https%3A%2F%2Fexample.com", headers: { "User-Agent" => "Connoisseur Tests" })
       .to_return(status: 200, body: "valid")
 
-    assert @client.verify_key_for(blog: "https://example.com")
+    assert CLIENT.verify_key_for(blog: "https://example.com")
   end
 
   test "verify key unsuccessfully" do
@@ -119,6 +117,6 @@ class Connoisseur::ClientTest < ActiveSupport::TestCase
       .with(body: "key=secret&blog=https%3A%2F%2Fexample.com", headers: { "User-Agent" => "Connoisseur Tests" })
       .to_return(status: 200, body: "invalid")
 
-    assert_not @client.verify_key_for(blog: "https://example.com")
+    assert_not CLIENT.verify_key_for(blog: "https://example.com")
   end
 end

@@ -11,6 +11,7 @@ require "connoisseur"
 
 Connoisseur.api_key = "secret"
 Connoisseur.user_agent = "Connoisseur Tests"
+CLIENT = Connoisseur::Client.new
 
 class ActiveSupport::TestCase
   setup do

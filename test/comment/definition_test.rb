@@ -1,34 +1,40 @@
 require "test_helper"
 
 class Connoisseur::Comment::DefinitionTest < ActiveSupport::TestCase
-  setup do
-    @definition = Connoisseur::Comment::Definition.new
-  end
-
   test "define blog" do
-    @definition.blog url: "https://example.com", language: "en", charset: "UTF-8"
-    assert_equal({ blog: "https://example.com", blog_lang: "en", blog_charset: "UTF-8" }, @definition.parameters)
+    comment = CLIENT.comment do |c|
+      c.blog url: "https://example.com", language: "en", charset: "UTF-8"
+    end
+
+    assert_equal({ blog: "https://example.com", blog_lang: "en", blog_charset: "UTF-8" }, comment.parameters)
   end
 
   test "define post with timestamp" do
-    @definition.post url: "https://example.com/posts/hello-world", updated_at: Time.parse("2017-09-24 12:00:00 EDT")
+    comment = CLIENT.comment do |c|
+      c.post url: "https://example.com/posts/hello-world", updated_at: Time.parse("2017-09-24 12:00:00 EDT")
+    end
 
     assert_equal(
       {
         permalink: "https://example.com/posts/hello-world",
         comment_post_modified_gmt: "2017-09-24T16:00:00Z"
       },
-      @definition.parameters
+      comment.parameters
     )
   end
 
   test "define post without timestamp" do
-    @definition.post url: "https://example.com/posts/hello-world"
-    assert_equal({ permalink: "https://example.com/posts/hello-world" }, @definition.parameters)
+    comment = CLIENT.comment do |c|
+      c.post url: "https://example.com/posts/hello-world"
+    end
+
+    assert_equal({ permalink: "https://example.com/posts/hello-world" }, comment.parameters)
   end
 
   test "define request" do
-    @definition.request ip_address: "24.29.18.175", user_agent: "Google Chrome", referrer: "https://example.com"
+    comment = CLIENT.comment do |c|
+      c.request ip_address: "24.29.18.175", user_agent: "Google Chrome", referrer: "https://example.com"
+    end
 
     assert_equal(
       {
@@ -36,12 +42,14 @@ class Connoisseur::Comment::DefinitionTest < ActiveSupport::TestCase
         user_agent: "Google Chrome",
         referrer: "https://example.com"
       },
-      @definition.parameters
+      comment.parameters
     )
   end
 
   test "define author without role" do
-    @definition.author name: "Jane Smith", email_address: "jane@example.com", url: "https://example.com"
+    comment = CLIENT.comment do |c|
+      c.author name: "Jane Smith", email_address: "jane@example.com", url: "https://example.com"
+    end
 
     assert_equal(
       {
@@ -49,12 +57,14 @@ class Connoisseur::Comment::DefinitionTest < ActiveSupport::TestCase
         comment_author_email: "jane@example.com",
         comment_author_url: "https://example.com"
       },
-      @definition.parameters
+      comment.parameters
     )
   end
 
   test "define author with role" do
-    @definition.author name: "Jane Smith", email_address: "jane@example.com", url: "https://example.com", role: :administrator
+    comment = CLIENT.comment do |c|
+      c.author name: "Jane Smith", email_address: "jane@example.com", url: "https://example.com", role: :administrator
+    end
 
     assert_equal(
       {
@@ -63,39 +73,43 @@ class Connoisseur::Comment::DefinitionTest < ActiveSupport::TestCase
         comment_author_url: "https://example.com",
         user_role: :administrator
       },
-      @definition.parameters
+      comment.parameters
     )
   end
 
   test "define type" do
-    @definition.type "comment"
-    assert_equal({ comment_type: "comment" }, @definition.parameters)
+    comment = CLIENT.comment { |c| c.type "comment" }
+    assert_equal({ comment_type: "comment" }, comment.parameters)
   end
 
   test "define content" do
-    @definition.content "Nice post!"
-    assert_equal({ comment_content: "Nice post!" }, @definition.parameters)
+    comment = CLIENT.comment { |c| c.content "Nice post!" }
+    assert_equal({ comment_content: "Nice post!" }, comment.parameters)
   end
 
   test "define creation time" do
-    @definition.created_at Time.parse("2017-09-24 12:00:00 EDT")
-    assert_equal({ comment_date_gmt: "2017-09-24T16:00:00Z" }, @definition.parameters)
+    comment = CLIENT.comment { |c| c.created_at Time.parse("2017-09-24 12:00:00 EDT") }
+    assert_equal({ comment_date_gmt: "2017-09-24T16:00:00Z" }, comment.parameters)
   end
 
   test "define test" do
-    @definition.test!
-    assert_equal({ is_test: true }, @definition.parameters)
+    comment = CLIENT.comment { |c| c.test! }
+    assert_equal({ is_test: true }, comment.parameters)
   end
 
   test "define everything" do
-    @definition.blog url: "https://example.com", language: "en", charset: "UTF-8"
-    @definition.post url: "https://example.com/posts/hello-world", updated_at: Time.parse("2017-09-24 12:00:00 EDT")
-    @definition.request ip_address: "24.29.18.175", user_agent: "Google Chrome", referrer: "https://example.com"
-    @definition.author name: "Jane Smith", email_address: "jane@example.com", url: "https://example.com", role: :administrator
-    @definition.type "comment"
-    @definition.content "Nice post!"
-    @definition.created_at Time.parse("2017-09-24 12:00:00 EDT")
-    @definition.test!
+    comment = CLIENT.comment do |c|
+      c.blog url: "https://example.com", language: "en", charset: "UTF-8"
+      c.post url: "https://example.com/posts/hello-world", updated_at: Time.parse("2017-09-24 12:00:00 EDT")
+      c.request ip_address: "24.29.18.175", user_agent: "Google Chrome", referrer: "https://example.com"
+      c.author name: "Jane Smith", email_address: "jane@example.com", url: "https://example.com", role: :administrator
+
+      c.type "comment"
+      c.content "Nice post!"
+      c.created_at Time.parse("2017-09-24 12:00:00 EDT")
+
+      c.test!
+    end
 
     assert_equal(
       {
@@ -116,7 +130,7 @@ class Connoisseur::Comment::DefinitionTest < ActiveSupport::TestCase
         comment_date_gmt: "2017-09-24T16:00:00Z",
         is_test: true
       },
-      @definition.parameters
+      comment.parameters
     )
   end
 end
