@@ -40,21 +40,21 @@ class Connoisseur::Comment
   # Returns a Connoisseur::Result.
   # Raises Connoisseur::Result::InvalidError if the Akismet API responds unexpectedly.
   def check
-    client.check parameters
+    client.check(parameters)
   end
 
   # Public: Inform Akismet that the comment should have been marked spam.
   #
   # Returns nothing.
   def spam!
-    client.spam! parameters
+    client.spam!(parameters)
   end
 
   # Public: Inform Akismet that the comment should have been marked ham.
   #
   # Returns nothing.
   def ham!
-    client.ham! parameters
+    client.ham!(parameters)
   end
 
   # Public: Inform Akismet that it incorrectly classified the comment.

@@ -30,7 +30,7 @@ class Connoisseur::Client
   #
   # Returns a Connoisseur::Comment.
   def comment(&block)
-    Connoisseur::Comment.define self, &block
+    Connoisseur::Comment.define(self, &block)
   end
 
   # Public: Verify the client's Akismet API key.
