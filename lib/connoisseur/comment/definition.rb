@@ -1,6 +1,10 @@
 class Connoisseur::Comment::Definition
   attr_reader :parameters
 
+  def self.build(&block)
+    new.tap(&block)
+  end
+
   def initialize
     @parameters = {}
   end

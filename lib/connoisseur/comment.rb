@@ -9,7 +9,16 @@ class Connoisseur::Comment
   #
   # Returns a Connoisseur::Comment.
   def self.define(client, &block)
-    new client, Definition.new.tap(&block).parameters
+    new client, parameters_for(&block)
+  end
+
+  # Internal: Generate a comment's parameters via the Definition DSL.
+  #
+  # Yields a Comment::Definition for declaring the comment's attributes.
+  #
+  # Returns a Hash of parameters.
+  def self.parameters_for(&block)
+    Definition.build(&block).parameters
   end
 
   # Internal: Initialize a Connoisseur::Comment.
