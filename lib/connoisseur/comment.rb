@@ -1,5 +1,5 @@
 class Connoisseur::Comment
-  attr_reader :client, :parameters
+  attr_reader :parameters
 
   # Internal: Define a comment via a DSL.
   #
@@ -8,8 +8,8 @@ class Connoisseur::Comment
   # Yields a Comment::Definition for declaring the comment's attributes.
   #
   # Returns a Connoisseur::Comment.
-  def self.define(client, &block)
-    new client, parameters_for(&block)
+  def self.define(service, &block)
+    new service, parameters_for(&block)
   end
 
   # Internal: Generate a comment's parameters via the Definition DSL.
@@ -23,10 +23,10 @@ class Connoisseur::Comment
 
   # Internal: Initialize a Connoisseur::Comment.
   #
-  # client     - A Connoisseur::Client for issuing relevant API requests.
+  # service    - A Connoisseur::Service for issuing relevant API requests.
   # parameters - A Hash of POST parameters describing the comment for use in API requests.
-  def initialize(client, parameters)
-    @client, @parameters = client, parameters
+  def initialize(service, parameters)
+    @service, @parameters = service, parameters
   end
 
   # Public: Determine whether a comment is spam or ham.
@@ -40,21 +40,21 @@ class Connoisseur::Comment
   # Returns a Connoisseur::Result.
   # Raises Connoisseur::Result::InvalidError if the Akismet API responds unexpectedly.
   def check
-    client.check(parameters)
+    @service.check(@parameters)
   end
 
   # Public: Inform Akismet that the comment should have been marked spam.
   #
   # Returns nothing.
   def spam!
-    client.spam!(parameters)
+    @service.spam!(@parameters)
   end
 
   # Public: Inform Akismet that the comment should have been marked ham.
   #
   # Returns nothing.
   def ham!
-    client.ham!(parameters)
+    @service.ham!(@parameters)
   end
 
   # Public: Inform Akismet that it incorrectly classified the comment.
