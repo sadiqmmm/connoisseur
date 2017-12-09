@@ -3,7 +3,7 @@ class Connoisseur::Comment
 
   # Internal: Define a comment via a DSL.
   #
-  # client - A Connoisseur::Client for issuing relevant API requests.
+  # service - A Connoisseur::Service for issuing relevant API requests.
   #
   # Yields a Comment::Definition for declaring the comment's attributes.
   #
