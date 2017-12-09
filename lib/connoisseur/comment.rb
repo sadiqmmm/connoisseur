@@ -3,7 +3,7 @@ class Connoisseur::Comment
 
   # Internal: Define a comment via a DSL.
   #
-  # service - A Connoisseur::Service for issuing relevant API requests.
+  # service - A Connoisseur::Service for issuing API requests.
   #
   # Yields a Comment::Definition for declaring the comment's attributes.
   #
@@ -23,7 +23,7 @@ class Connoisseur::Comment
 
   # Internal: Initialize a Connoisseur::Comment.
   #
-  # service    - A Connoisseur::Service for issuing relevant API requests.
+  # service    - A Connoisseur::Service for issuing API requests.
   # parameters - A Hash of POST parameters describing the comment for use in API requests.
   def initialize(service, parameters)
     @service, @parameters = service, parameters
