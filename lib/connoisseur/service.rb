@@ -40,7 +40,7 @@ class Connoisseur::Service
     post "submit-ham", body: comment
   end
 
-  # Public: Verify the client's Akismet API key.
+  # Internal: Verify the service's Akismet API key.
   #
   # blog - The URL of the blog associated with the key.
   #
