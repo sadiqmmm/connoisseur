@@ -2,16 +2,25 @@ require "connoisseur/service"
 require "connoisseur/comment"
 
 class Connoisseur::Client
-  # Public: Initialize a Connoisseur client.
+  # Public: Build a Connoisseur client.
   #
   # key        - Your Akismet API key, obtained from https://akismet.com.
-  #              The default is Connoisseur.api_key.
+  #              Defaults to Connoisseur.key.
   # user_agent - The String value to provide in the User-Agent header when issuing
-  #              HTTP requests to the Akismet API. The default is Connoisseur.user_agent.
+  #              HTTP requests to the Akismet API. Defaults to Connoisseur.user_agent.
   #
   # Raises ArgumentError if the key is nil or blank.
-  def initialize(key: Connoisseur.api_key, user_agent: Connoisseur.user_agent)
-    @service = Connoisseur::Service.new(key: key, user_agent: user_agent)
+  # Returns a Connoisseur::Client.
+  def self.build(key: Connoisseur.key, user_agent: Connoisseur.user_agent)
+    Connoisseur::Client.new \
+      Connoisseur::Service.new(key: key, user_agent: user_agent)
+  end
+
+  # Internal: Initialize a Connoisseur client.
+  #
+  # service - A Connoisseur::Service for issuing API requests.
+  def initialize(service)
+    @service = service
   end
 
   # Public: Build a comment.

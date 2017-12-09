@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name     = "connoisseur"
-  s.version  = "1.6.1"
+  s.version  = "1.7.0"
   s.authors  = "George Claghorn"
   s.email    = "georgeclaghorn@gmail.com"
   s.summary  = "Client for the Akismet spam filtering service"
