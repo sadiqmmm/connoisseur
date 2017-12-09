@@ -4,8 +4,10 @@ class Connoisseur::Service
   # Internal: Initialize a Connoisseur service.
   #
   # key        - An Akismet API key, obtained from https://akismet.com.
-  # user_agent - The String value the service should provide in the User-Agent header when issuing
+  # user_agent - The String value to provide in the User-Agent header when issuing
   #              HTTP requests to the Akismet API.
+  #
+  # Raises ArgumentError if the key is nil or blank.
   def initialize(key:, user_agent:)
     @key, @user_agent = key, user_agent
 
