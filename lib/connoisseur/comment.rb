@@ -9,16 +9,7 @@ class Connoisseur::Comment
   #
   # Returns a Connoisseur::Comment.
   def self.define(service, &block)
-    new service, parameters_for(&block)
-  end
-
-  # Internal: Generate a comment's parameters via the Definition DSL.
-  #
-  # Yields a Comment::Definition for declaring the comment's attributes.
-  #
-  # Returns a Hash of parameters.
-  def self.parameters_for(&block)
-    Definition.build(&block).parameters
+    new service, Definition.build(&block).parameters
   end
 
   # Internal: Initialize a Connoisseur::Comment.
