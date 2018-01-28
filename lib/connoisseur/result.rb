@@ -47,7 +47,7 @@ class Connoisseur::Result
   end
 
   def require_boolean_response_body
-    unless %w( true false ).include?(response.body)
+    unless %w[ true false ].include?(response.body)
       raise InvalidError, debuggable_error_message_from("Expected boolean response body, got #{response.body.inspect}")
     end
   end
