@@ -48,11 +48,15 @@ class Connoisseur::Result
 
   def require_boolean_response_body
     unless %w( true false ).include?(response.body)
-      if message = response.header["X-Akismet-Debug-Help"]
-        raise InvalidError, "Expected boolean response body, got #{response.body.inspect} (#{message})"
-      else
-        raise InvalidError, "Expected boolean response body, got #{response.body.inspect}"
-      end
+      raise InvalidError, debuggable_error_message_from("Expected boolean response body, got #{response.body.inspect}")
+    end
+  end
+
+  def debuggable_error_message_from(message)
+    if help = response.header["X-Akismet-Debug-Help"]
+      "#{message} (#{help})"
+    else
+      message
     end
   end
 end
