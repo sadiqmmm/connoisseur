@@ -12,10 +12,10 @@ gem "connoisseur"
 
 ## Usage
 
-Build a Connoisseur client:
+Initialize a Connoisseur client:
 
 ```ruby
-client = Connoisseur::Client.build(key: "...", user_agent: "...")
+client = Connoisseur::Client.new(key: "...", user_agent: "...")
 ```
 
 Build a comment:
@@ -74,7 +74,7 @@ For convenience, set your Akismet API key and user agent globally (e.g. in a Rai
 Connoisseur.key = "..."
 Connoisseur.user_agent = "..."
 
-client = Connoisseur::Client.build
+client = Connoisseur::Client.new
 ```
 
 ## Requirements

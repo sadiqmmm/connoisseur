@@ -9,9 +9,7 @@ require "byebug"
 
 require "connoisseur"
 
-Connoisseur.key = "secret"
-Connoisseur.user_agent = "Connoisseur Tests"
-CLIENT = Connoisseur::Client.build
+CLIENT = Connoisseur::Client.new(key: "secret", user_agent: "Connoisseur Tests")
 
 class ActiveSupport::TestCase
   setup do
